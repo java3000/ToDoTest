@@ -4,6 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
-    
-    <includeAll path="db/changelog/migrations" />
+
+    <include file="db/changelog/migrations/29-11-init-changelog.xml" id="1"/>
+    <include file="db/changelog/migrations/29-11-changelog-data.xml" id="2"/>
 </databaseChangeLog>

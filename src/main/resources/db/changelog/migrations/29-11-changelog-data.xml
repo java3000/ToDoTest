@@ -4,5 +4,55 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+    <changeSet id="2" author="java3000">
+        <insert tableName="role">
+            <column name="id">1</column>
+            <column name="name">ROLE_USER</column>
+        </insert>
+        <insert tableName="role">
+            <column name="id">2</column>
+            <column name="name">ROLE_ADMIN</column>
+        </insert>
+        <insert tableName="role">
+            <column name="id">3</column>
+            <column name="name">ROLE_ANONYMOUS</column>
+        </insert>
 
+        <insert tableName="users">
+            <column name="id">1</column>
+            <column name="name">Just User</column>
+            <column name="login">user</column>
+            <column name="password">{bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG</column>
+        </insert>
+        <insert tableName="users">
+            <column name="id">2</column>
+            <column name="name">Super User</column>
+            <column name="login">admin</column>
+            <column name="password">{bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG</column>
+        </insert>
+
+        <insert tableName="users_roles">
+            <column name="user_id">1</column>
+            <column name="role_id">1</column>
+        </insert>
+        <insert tableName="users_roles">
+            <column name="user_id">2</column>
+            <column name="role_id">1</column>
+        </insert>
+        <insert tableName="users_roles">
+            <column name="user_id">2</column>
+            <column name="role_id">2</column>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id">1</column>
+            <column name="subject">test</column>
+            <column name="description">description of user test task</column>
+        </insert>
+
+        <insert tableName="users_tasks">
+            <column name="user_id">1</column>
+            <column name="task_id">1</column>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

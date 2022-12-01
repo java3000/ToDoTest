@@ -1,10 +1,74 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+    <title>Главная</title>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.1/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/5.1.1/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
-<p>Today is: <span th:text="${today}">13 February 2011</span></p>
+<div>
+    <div sec:authorize="isAnonymous()">
+        <h4><a href="/login">Войти</a></h4>
+        <h4><a href="/registration">Зарегистрироваться</a></h4>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <div><h4><a href="/logout">Выйти</a></h4></div>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <h4><a href="/tasks">Задачи (HATEOAS)</a></h4>
+        <div>
+            <div class="container">
+                <form method="POST" action="#" th:action="@{'/tasks/add'}" target="/tasks/add" th:object="${task}">
+                    <h2>Добавить задачу: </h2>
+                    <div>
+                        <input th:field="*{subject}" class="form-control" type="text" path="subject"
+                               placeholder="Subject" autofocus="true">
+                    </div>
+                    <div>
+                        <input th:field="*{description}" class="form-control" type="text" path="description"
+                               placeholder="Your text" autofocus="true">
+                    </div>
+                    <button type="submit" class="btn btn-success">Создать</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task1 : ${tasks}">
+                    <td th:text="${task1.getSubject()}">subject</td>
+                    <td th:text="${task1.getDescription()}">description</td>
+                    <td>
+                        <div class="d-flex flex-row">
+                            <form method="get" action="#" th:action="@{'/tasks/update/{id}'(id=${task1.getId()})}"
+                                  th:object="${task1}">
+                                <button class="btn btn-primary" type="submit" id="updateButton">Редактировать</button>
+                            </form>
+                            <form method="post" action="#" th:action="@{'/tasks/delete/{id}'(id=${task1.getId()})}"
+                                  th:object="${task1}">
+                                <button class="btn btn-danger" type="submit" id="deleteButton">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    Logged user: <span sec:authentication="name">Bob</span>
+</div>
 </body>
 </html>
